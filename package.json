@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "description": "ali-oss common operating tools",
   "main": "index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
-    "test": "vitest run",
+    "test": "npm run build-dist && npm run coverage",
     "tsc": "tsc",
     "coverage": "vitest run --coverage",
     "build-dist": "tsc && node build.js",
@@ -29,7 +30,9 @@
     "ali-oss": "^6.17.1",
     "esbuild": "^0.15.13",
     "f2elint": "^2.2.1",
+    "puppeteer": "^19.2.2",
     "typescript": "^4.8.4",
+    "vite": "^3.2.3",
     "vitest": "^0.25.1"
   },
   "husky": {

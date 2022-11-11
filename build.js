@@ -9,6 +9,7 @@ esbuild.buildSync({
   platform: 'browser',
   outfile: 'dist/oss-plugin-min.js',
 });
+
 esbuild.buildSync({
   entryPoints: ['src/index.ts'],
   bundle: true,

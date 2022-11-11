@@ -2,9 +2,10 @@
 import OSS from 'ali-oss';
 
 export const config = {
-  bucket: `ali-oss-${process.platform}-${process.arch}-${
-    process.versions.node
-  }-${new Date().valueOf()}`,
+  bucket: `ali-oss-${process.platform}-${process.arch}-${process.version.replaceAll(
+    '.',
+    '-',
+  )}-${new Date().valueOf()}`,
   region: 'oss-cn-hangzhou',
   accessKeyId: process.env.ALI_SDK_OSS_ID as string,
   accessKeySecret: process.env.ALI_SDK_OSS_SECRET as string,

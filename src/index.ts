@@ -1,7 +1,7 @@
 import OSS from 'ali-oss';
 import { isBrowser } from './utils';
 
-interface IUtils {
+export interface IUtils {
   addFolder: Function;
 }
 
@@ -29,7 +29,7 @@ class Utils implements IUtils {
       folderPath = folder + '/';
     }
 
-    let blob: Buffer | Blob;
+    let blob: Buffer | Blob | string;
     if (isBrowser()) {
       blob = new Blob([]);
     } else {
@@ -39,8 +39,6 @@ class Utils implements IUtils {
   }
 }
 
-function getInstance(oss: OSS) {
+export function getInstance(oss: OSS) {
   return Utils.getInstance(oss);
 }
-
-module.exports = getInstance;

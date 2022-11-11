@@ -1,40 +1,46 @@
 import OSS from 'ali-oss';
-// @ts-ignore
-import Utils from '../src/index';
-import { afterAll, afterEach, assert, beforeAll, beforeEach, describe, it } from 'vitest';
-import { config, cleanAllBucket } from './config';
+import { IUtils as IU, getInstance as Utils } from '../src/index';
+import { assert, beforeAll, beforeEach, describe, it } from 'vitest';
+import { config } from './config';
+
+interface IUtils {
+  ossClient: OSS;
+  utils: IU;
+}
+
+const bucket = config.bucket;
+const region = config.region;
+
+const client = new OSS({
+  accessKeyId: config.accessKeyId,
+  accessKeySecret: config.accessKeySecret,
+});
+
+beforeAll(async () => {
+  //create bucket
+  await client.putBucket(bucket);
+  client.useBucket(bucket);
+});
 
 describe('node test', () => {
-  const bucket = config.bucket;
-  const region = config.region;
-  const client = new OSS({
-    accessKeyId: config.accessKeyId,
-    accessKeySecret: config.accessKeySecret,
-  });
-  const utils = Utils(client);
-  beforeAll(async () => {
-    //create bucket
-    await client.putBucket(bucket);
-    await client.useBucket(bucket);
+  beforeEach<IUtils>((context) => {
+    context.ossClient = client;
+    context.utils = Utils(client);
   });
 
-  afterAll(() => {
-    cleanAllBucket(client);
-  });
-
-  it('should add folder 123/sss/xxxx/', async function () {
+  it<IUtils>('should add folder 123/sss/xxxx/', async function ({ ossClient, utils }) {
     const folder = ['123', 'sss', 'xxxx'];
     await utils.addFolder(folder);
     // @ts-ignore
-    const res = await client.listV2();
+    const res = await ossClient.listV2();
     assert.equal(res.objects[0].name, folder.join('/') + '/');
   });
 
-  it('should add folder xxxx/', async function () {
+  it<IUtils>('should add folder xxxx/', async function ({ ossClient, utils }) {
     const folder = 'xxxx';
     await utils.addFolder(folder);
     // @ts-ignore
-    const res = await client.listV2();
+    const res = await ossClient.listV2();
     assert.equal(res.objects[1].name, folder + '/');
   });
 });
