@@ -1,31 +1,46 @@
 import OSS from 'ali-oss';
 import { isBrowser } from './utils';
 
-class Utils {
-  ossClient: OSS;
+interface IUtils {
+  addFolder: Function;
+}
 
-  constructor(oss: OSS) {
+class Utils implements IUtils {
+  private static instance: Utils;
+  private ossClient: OSS;
+
+  private constructor(oss: OSS) {
     this.ossClient = oss;
   }
 
-  async addFolder(folder: string[] | string) {
-    let folderPath;
+  public static getInstance(oss: OSS): Utils {
+    if (!Utils.instance) {
+      Utils.instance = new Utils(oss);
+    }
+    return Utils.instance;
+  }
+
+  public async addFolder(folder: string | string[]) {
+    let folderPath: string = '';
+
     if (Array.isArray(folder)) {
       folderPath = folder.join('/') + '/';
     } else {
       folderPath = folder + '/';
     }
 
-    let blob: Buffer | Blob = Buffer.from([]);
+    let blob: Buffer | Blob;
     if (isBrowser()) {
       blob = new Blob([]);
+    } else {
+      blob = Buffer.from([]);
     }
-    try {
-      return await this.ossClient.put(folderPath, blob);
-    } catch (e) {
-      console.log(e);
-    }
+    return await this.ossClient.put(folderPath, blob);
   }
 }
 
-export default Utils;
+function getInstance(oss: OSS) {
+  return Utils.getInstance(oss);
+}
+
+module.exports = getInstance;
