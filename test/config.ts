@@ -1,14 +1,25 @@
 // @ts-nocheck
 import OSS from 'ali-oss';
 
-export const config = {
-  bucket: `ali-oss-${process.platform}-${process.arch}-${process.version.replaceAll(
-    '.',
-    '-',
-  )}-${new Date().valueOf()}`,
-  region: 'oss-cn-hangzhou',
-  accessKeyId: process.env.ALI_SDK_OSS_ID as string,
-  accessKeySecret: process.env.ALI_SDK_OSS_SECRET as string,
+export const config = (env: string) => {
+  if (env === 'node') {
+    return {
+      bucket: `ali-oss-${process.platform}-${process.arch}-${process.version.replaceAll(
+        '.',
+        '-',
+      )}-${new Date().valueOf()}`,
+      region: 'oss-cn-hangzhou',
+      accessKeyId: process.env.ALI_SDK_OSS_ID as string,
+      accessKeySecret: process.env.ALI_SDK_OSS_SECRET as string,
+    };
+  }
+  return {
+    bucket: process.env.ALI_SDK_STS_BUCKET ? process.env.ALI_SDK_STS_BUCKET : 'borwser-sdk-test',
+    region: process.env.ALI_SDK_STS_REGION ? process.env.ALI_SDK_STS_REGION : 'oss-cn-hangzhou',
+    accessKeyId: process.env.ALI_SDK_STS_OSS_ID as string,
+    accessKeySecret: process.env.ALI_SDK_STS_OSS_SECRET as string,
+    ram: process.env.ALI_SDK_STS_ROLE,
+  };
 };
 
 export const cleanAllBucket = (store) => {

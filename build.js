@@ -7,7 +7,7 @@ esbuild.buildSync({
   minify: true,
   target: ['chrome58', 'firefox57', 'safari11', 'edge16'],
   platform: 'browser',
-  outfile: 'dist/oss-plugin-min.js',
+  outfile: 'dist/oss-plugin.min.js',
 });
 
 esbuild.buildSync({

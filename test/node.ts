@@ -8,12 +8,14 @@ interface IUtils {
   utils: IU;
 }
 
-const bucket = config.bucket;
-const region = config.region;
+const conf = config('node');
+
+const bucket = conf.bucket;
+const region = conf.region;
 
 const client = new OSS({
-  accessKeyId: config.accessKeyId,
-  accessKeySecret: config.accessKeySecret,
+  accessKeyId: conf.accessKeyId,
+  accessKeySecret: conf.accessKeySecret,
 });
 
 beforeAll(async () => {
