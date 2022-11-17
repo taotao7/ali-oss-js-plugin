@@ -35,7 +35,7 @@ const ossClient = new OSS({
   bucket: "bucket",
   region: "region",
 })
-const utils = Utils(ossClient)
+const utils = Utils.getInstance(ossClient)
 
 // add folder 1/
 utils.addFolder('1')
@@ -47,7 +47,7 @@ const ossClient = new OSS({
   bucket: "bucket",
   region: "region",
 })
-const utils = Utils(ossClient)
+const utils = Utils.getInstance(ossClient)
 
 // add folder 1/2/3/
 utils.addFolder(['1','2','3'])
