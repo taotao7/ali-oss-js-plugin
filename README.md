@@ -13,14 +13,19 @@ react/vue:
 browser:
   copy dist/oss-plugin.min.js to your project
 
-[addFolder](#addFolder)
 
-## object 
+
+## Method 
+[addFolder](#addfolder)
+
+
+---
 
 ### addFolder
 Add the directory to the corresponding bucket
 parameters:
   - name {String|String[]}  One-level directories use strings, multi-level directories use arrays
+
 
 ```javascript
 // first level catalog
@@ -32,6 +37,7 @@ const ossClient = new OSS({
 })
 const utils = Utils(ossClient)
 
+// add folder 1/
 utils.addFolder('1')
 
 // multi level catalog
@@ -43,6 +49,7 @@ const ossClient = new OSS({
 })
 const utils = Utils(ossClient)
 
+// add folder 1/2/3/
 utils.addFolder(['1','2','3'])
 
 ```
